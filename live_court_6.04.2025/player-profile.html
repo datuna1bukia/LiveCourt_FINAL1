@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Profile - LiveCourt</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .profile-header {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid #2ecc71;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            border-top: 4px solid #2ecc71;
+        }
+
+        .chart-wrapper {
+            height: 300px;
+            margin-top: 1rem;
+        }
+
+        .match-history {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-top: 4px solid #2ecc71;
+        }
+
+        .match-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .match-item:last-child {
+            border-bottom: none;
+        }
+
+        .win { color: #2ecc71; }
+        .loss { color: #e74c3c; }
+        .draw { color: #f1c40f; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="assets/img/livecourt.png" alt="LiveCourt Logo">
+                LiveCourt
+            </a>
+            <div class="nav-links">
+                <a href="stadiums.html">Stadiums</a>
+                <a href="match-analytics.html">Analytics</a>
+                <a href="player-profile.html" class="active">Players</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="dashboard.html" class="btn-primary hover-lift">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="profile-header" style="margin-top: 80px;">
+        <div class="container">
+            <div class="profile-info">
+                <div class="profile-avatar">👤</div>
+                <div>
+                    <h1 id="player-name">Khvicha Kvaratskhelia</h1>
+                    <p id="player-position">Forward</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Matches Played</h3>
+                    <p id="matches-played">38</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Goals</h3>
+                    <p id="goals">28</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Assists</h3>
+                    <p id="assists">18</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Avg. Play Time</h3>
+                    <p id="avg-playtime">90</p>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Performance Trend</h3>
+                <div class="chart-wrapper">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Speed Analysis</h3>
+                <div class="chart-wrapper">
+                    <canvas id="speedChart"></canvas>
+                </div>
+            </div>
+
+            <div class="match-history">
+                <h3>Recent Matches</h3>
+                <div id="match-list">
+                    <!-- Match history will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <a href="/" class="footer-logo">
+                        <img src="assets/img/livecourt.png" alt="LiveCourt Logo">
+                        LiveCourt
+                    </a>
+                    <p>Making sports accessible to everyone</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="stadiums.html">Stadiums</a>
+                    <a href="match-analytics.html">Analytics</a>
+                    <a href="about.html">About</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <a href="contact.html">Get in touch</a>
+                    <a href="#">Support</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 LiveCourt. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Performance Chart
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(performanceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'Performance Score',
+                        data: [78, 82, 85, 88, 92, 90, 94, 96, 95, 98],
+                        borderColor: '#4A90E2',
+                        backgroundColor: 'rgba(74, 144, 226, 0.2)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+            // Speed Analysis Chart
+            const speedCtx = document.getElementById('speedChart').getContext('2d');
+            new Chart(speedCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sprint', 'Avg Speed', 'Distance', 'Acceleration', 'Top Speed'],
+                    datasets: [{
+                        label: 'Speed Metrics',
+                        data: [34.5, 19.2, 11.5, 9.2, 37.8],
+                        backgroundColor: [
+                            '#2ecc71',
+                            '#3498db',
+                            '#9b59b6',
+                            '#f1c40f',
+                            '#e74c3c'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Populate match history
+            const matches = [
+                { date: '2024-03-15', opponent: 'Team B', result: 'win', score: '3-2', goals: 2, assists: 1 },
+                { date: '2024-03-10', opponent: 'Team C', result: 'draw', score: '1-1', goals: 1, assists: 0 },
+                { date: '2024-03-05', opponent: 'Team D', result: 'loss', score: '0-2', goals: 0, assists: 0 }
+            ];
+
+            const matchList = document.getElementById('match-list');
+            matchList.innerHTML = matches.map(match => `
+                <div class="match-item">
+                    <div>
+                        <strong>${match.date}</strong>
+                        <span>vs ${match.opponent}</span>
+                    </div>
+                    <div>
+                        <span class="${match.result}">${match.score}</span>
+                        ${match.goals > 0 ? `<span>⚽ ${match.goals}</span>` : ''}
+                        ${match.assists > 0 ? `<span>👟 ${match.assists}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        });
+    </script>
+</body>
+</html> 

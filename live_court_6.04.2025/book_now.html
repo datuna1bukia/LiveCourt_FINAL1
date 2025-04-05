@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en" data-language="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveCourt - Book Now</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #1e293b;
+            --success-color: #22c55e;
+            --warning-color: #eab308;
+            --error-color: #ef4444;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+        }
+
+        .booking-section {
+            padding: 6rem 0;
+            background: var(--light-gray);
+        }
+
+        .booking-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .stadium-preview {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .stadium-preview img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .booking-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.3);
+        }
+
+        .price-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .price-display span {
+            font-size: 1rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* Add language-specific display rules */
+        [data-language="en"] [data-ka] {
+            display: none;
+        }
+
+        [data-language="ka"] [data-en] {
+            display: none;
+        }
+
+        [data-language="en"] [data-en],
+        [data-language="ka"] [data-ka] {
+            display: inline;
+        }
+
+        @media (max-width: 768px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+
+            .booking-form {
+                padding: 2rem;
+            }
+
+            .stadium-preview img {
+                height: 300px;
+            }
+
+            .success-content {
+                padding: 2rem;
+                width: 95%;
+            }
+
+            .success-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .success-actions button {
+                width: 100%;
+            }
+
+            .price-display {
+                font-size: 1.3rem;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 0.8rem;
+            }
+
+            .btn-primary {
+                padding: 0.8rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .booking-form {
+                padding: 1.5rem;
+            }
+
+            .stadium-preview img {
+                height: 250px;
+            }
+
+            .success-content {
+                padding: 1.5rem;
+            }
+
+            .success-title {
+                font-size: 1.5rem;
+            }
+
+            .success-message {
+                font-size: 1rem;
+            }
+
+            .success-details {
+                padding: 1rem;
+            }
+
+            .success-details p {
+                font-size: 0.9rem;
+            }
+
+            .price-display {
+                font-size: 1.2rem;
+                padding: 0.8rem;
+            }
+        }
+
+        /* Form improvements */
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group label::before {
+            content: '•';
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Success modal improvements */
+        .success-modal {
+            backdrop-filter: blur(5px);
+        }
+
+        .success-content {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-color);
+        }
+
+        .success-icon {
+            position: relative;
+        }
+
+        .success-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Loading state for submit button */
+        .btn-primary.loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .btn-primary.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .court-preview {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 15px 30px rgba(46, 204, 113, 0.15);
+        }
+
+        .court-preview::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            z-index: 1;
+        }
+
+        .court-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .court-details {
+            display: grid;
+            grid-template-columns: 1.8fr 1.2fr;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .court-info {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.1);
+        }
+
+        .court-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .amenities-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .amenity-item:hover {
+            transform: translateX(5px);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .booking-summary {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1.5rem;
+        }
+
+        .booking-summary h4 {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(46, 204, 113, 0.2);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            border-top: 2px solid rgba(46, 204, 113, 0.2);
+        }
+
+        .book-button {
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .book-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+        }
+
+        .book-button:active {
+            transform: translateY(-1px);
+        }
+
+        .button-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .book-button:hover .button-icon {
+            transform: translateX(5px);
+        }
+
+        .court-image-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .court-image-slider img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .court-image-slider img.active {
+            opacity: 1;
+        }
+
+        .slider-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .slider-controls button {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .slider-controls button:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        /* Success Message Modal Styles */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .success-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            animation: scaleIn 0.3s ease forwards;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            animation: bounceIn 0.5s ease;
+        }
+
+        .success-icon i {
+            font-size: 40px;
+            color: white;
+        }
+
+        .success-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .success-details {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .success-details p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .success-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .success-actions button {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .success-actions .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .success-actions .btn-secondary {
+            background: var(--light-bg);
+            color: var(--text-color);
+            border: none;
+        }
+
+        .success-actions button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.9); }
+            to { transform: scale(1); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.1); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="assets/img/livecourt.png" alt="LiveCourt Logo">
+                LiveCourt
+            </a>
+            <div class="nav-links">
+                <a href="stadiums.html">
+                    <span data-en>Stadiums</span>
+                    <span data-ka>სტადიონები</span>
+                </a>
+                <a href="match-analytics.html">
+                    <span data-en>Analytics</span>
+                    <span data-ka>ანალიტიკა</span>
+                </a>
+                <a href="player-profile.html">
+                    <span data-en>Players</span>
+                    <span data-ka>მოთამაშეები</span>
+                </a>
+                <a href="about.html">
+                    <span data-en>About</span>
+                    <span data-ka>შესახებ</span>
+                </a>
+                <a href="contact.html">
+                    <span data-en>Contact</span>
+                    <span data-ka>კონტაქტი</span>
+                </a>
+                <div class="language-switcher">
+                    <button class="language-btn" onclick="switchLanguage('en')">EN</button>
+                    <span>|</span>
+                    <button class="language-btn" onclick="switchLanguage('ka')">KA</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="booking-section">
+        <div class="booking-container">
+            <div class="stadium-preview">
+                <img id="stadium-image" src="" alt="">
+            </div>
+            <div class="booking-form">
+                <h2 id="stadium-name" class="section-title">
+                    <span data-en></span>
+                    <span data-ka></span>
+                </h2>
+                <div class="price-display">
+                    <span data-en>Price per hour:</span>
+                    <span data-ka>ფასი საათში:</span>
+                    <div id="stadium-price"></div>
+                </div>
+                <form id="booking-form">
+                    <div class="form-group">
+                        <label for="date">
+                            <span data-en>Date</span>
+                            <span data-ka>თარიღი</span>
+                        </label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">
+                            <span data-en>Time</span>
+                            <span data-ka>დრო</span>
+                        </label>
+                        <input type="time" id="time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">
+                            <span data-en>Duration (hours)</span>
+                            <span data-ka>ხანგრძლივობა (საათი)</span>
+                        </label>
+                        <select id="duration" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <span data-en>Confirm Booking</span>
+                        <span data-ka>დადასტურება</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <a href="/" class="footer-logo">
+                        <img src="assets/img/livecourt.png" alt="LiveCourt Logo">
+                        LiveCourt
+                    </a>
+                    <p>
+                        <span data-en>Making sports accessible to everyone</span>
+                        <span data-ka>სპორტი ხელმისაწვდომია ყველასთვის</span>
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>
+                        <span data-en>Quick Links</span>
+                        <span data-ka>სწრაფი ბმულები</span>
+                    </h4>
+                    <a href="stadiums.html">
+                        <span data-en>Stadiums</span>
+                        <span data-ka>სტადიონები</span>
+                    </a>
+                    <a href="match-analytics.html">
+                        <span data-en>Analytics</span>
+                        <span data-ka>ანალიტიკა</span>
+                    </a>
+                    <a href="about.html">
+                        <span data-en>About</span>
+                        <span data-ka>შესახებ</span>
+                    </a>
+                </div>
+                <div class="footer-section">
+                    <h4>
+                        <span data-en>Contact</span>
+                        <span data-ka>კონტაქტი</span>
+                    </h4>
+                    <a href="contact.html">
+                        <span data-en>Get in touch</span>
+                        <span data-ka>დაგვიკავშირდით</span>
+                    </a>
+                    <a href="#">
+                        <span data-en>Support</span>
+                        <span data-ka>მხარდაჭერა</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    <span data-en>&copy; 2024 LiveCourt. All rights reserved.</span>
+                    <span data-ka>&copy; 2024 LiveCourt. ყველა უფლება დაცულია.</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">
+                <i>✓</i>
+            </div>
+            <h2 class="success-title">
+                <span data-en>Booking Confirmed!</span>
+                <span data-ka>დაჯავშნა დადასტურებულია!</span>
+            </h2>
+            <div class="success-message">
+                <span data-en>Thank you for choosing LiveCourt. Your booking has been successfully confirmed.</span>
+                <span data-ka>გმადლობთ LiveCourt-ის არჩევისთვის. თქვენი დაჯავშნა წარმატებით დადასტურდა.</span>
+            </div>
+            <div class="success-details" id="bookingDetails">
+                <!-- Details will be populated by JavaScript -->
+            </div>
+            <div class="success-actions">
+                <button class="btn-primary" onclick="closeSuccessModal()">
+                    <span data-en>View Booking</span>
+                    <span data-ka>იხილეთ დაჯავშნა</span>
+                </button>
+                <button class="btn-secondary" onclick="closeSuccessModal()">
+                    <span data-en>Close</span>
+                    <span data-ka>დახურვა</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="assets/js/translations.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const stadiumId = urlParams.get('stadium');
+            const nameEn = urlParams.get('name_en');
+            const nameKa = urlParams.get('name_ka');
+            const image = urlParams.get('image');
+
+            // Stadium prices (in GEL)
+            const stadiumPrices = {
+                'baxwood_hall_tskneti': 150,
+                'baxwood_field_gelovani': 120,
+                'inter_academy_field': 180,
+                'lisi_abano_field': 100,
+                'newton_free_school_field': 90,
+                'inter_academy_field_n3': 160,
+                'kus_lake_field': 80,
+                '35th_school_mini_field': 70
+            };
+
+            // Update stadium information
+            if (stadiumId && nameEn && nameKa && image) {
+                document.getElementById('stadium-image').src = `assets/img/${image}`;
+                document.getElementById('stadium-image').alt = nameEn;
+                document.querySelector('#stadium-name [data-en]').textContent = nameEn;
+                document.querySelector('#stadium-name [data-ka]').textContent = nameKa;
+                
+                // Update price
+                const price = stadiumPrices[stadiumId] || 100;
+                document.getElementById('stadium-price').textContent = `${price} ₾`;
+            } else {
+                // Redirect to stadiums page if no stadium information is provided
+                window.location.href = 'stadiums.html';
+            }
+
+            // Initialize language
+            const savedLanguage = localStorage.getItem('language') || 'en';
+            document.documentElement.setAttribute('data-language', savedLanguage);
+            updateActiveLanguageButton(savedLanguage);
+
+            // Handle form submission
+            document.getElementById('booking-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const submitButton = e.target.querySelector('button[type="submit"]');
+                
+                // Add loading state
+                submitButton.classList.add('loading');
+                submitButton.disabled = true;
+
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                const duration = document.getElementById('duration').value;
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
+                const price = stadiumPrices[stadiumId] || 100;
+                const totalPrice = duration * price;
+                
+                // Update booking details
+                const bookingDetails = document.getElementById('bookingDetails');
+                const currentLang = document.documentElement.getAttribute('data-language');
+                
+                if (currentLang === 'en') {
+                    bookingDetails.innerHTML = `
+                        <p>Stadium: ${nameEn}</p>
+                        <p>Date: ${date}</p>
+                        <p>Time: ${time}</p>
+                        <p>Duration: ${duration} hours</p>
+                        <p>Total Price: ${totalPrice} ₾</p>
+                    `;
+                } else {
+                    bookingDetails.innerHTML = `
+                        <p>სტადიონი: ${nameKa}</p>
+                        <p>თარიღი: ${date}</p>
+                        <p>დრო: ${time}</p>
+                        <p>ხანგრძლივობა: ${duration} საათი</p>
+                        <p>მთლიანი ფასი: ${totalPrice} ₾</p>
+                    `;
+                }
+                
+                // Show success modal
+                document.getElementById('successModal').classList.add('active');
+
+                // Remove loading state
+                submitButton.classList.remove('loading');
+                submitButton.disabled = false;
+            });
+
+            // Add input validation
+            const formInputs = document.querySelectorAll('.form-group input, .form-group select');
+            formInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value) {
+                        this.classList.add('valid');
+                    } else {
+                        this.classList.remove('valid');
+                    }
+                });
+            });
+        });
+
+        function switchLanguage(lang) {
+            document.documentElement.setAttribute('data-language', lang);
+            localStorage.setItem('language', lang);
+            updateActiveLanguageButton(lang);
+        }
+
+        function updateActiveLanguageButton(lang) {
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase() === lang) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

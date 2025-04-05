@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" data-language="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveCourt - About Us</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .about-hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2c3e50 100%);
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('assets/img/pattern.svg') repeat;
+            opacity: 0.1;
+            animation: slide 20s linear infinite;
+        }
+
+        .about-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .mission-section {
+            padding: 4rem 0;
+            background: var(--light-gray);
+        }
+
+        .mission-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .mission-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-content p {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .journey-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .journey-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .journey-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50%;
+            position: relative;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideIn 0.6s ease-out forwards;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+            transform: translateX(50px);
+        }
+
+        .timeline-content {
+            width: 90%;
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            text-align: left;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-style: solid;
+            border-width: 10px 0 10px 15px;
+            border-color: transparent transparent transparent white;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            right: auto;
+            left: -15px;
+            border-width: 10px 15px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translate(50%, -50%);
+            z-index: 2;
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            right: auto;
+            left: -10px;
+            transform: translate(-50%, -50%);
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--heading-color);
+        }
+
+        .timeline-description {
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                padding-right: 0;
+                padding-left: calc(30px + 2rem);
+                justify-content: flex-start;
+            }
+
+            .timeline-dot {
+                left: 20px;
+                right: auto;
+                transform: translate(0, -50%);
+            }
+
+            .timeline-item:nth-child(even) .timeline-dot {
+                left: 20px;
+                transform: translate(0, -50%);
+            }
+
+            .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                width: 100%;
+            }
+
+            .timeline-content::before,
+            .timeline-item:nth-child(even) .timeline-content::before {
+                left: -15px;
+                border-width: 10px 15px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+        }
+
+        [data-language="ka"] [data-en],
+        [data-language="en"] [data-ka] {
+            display: none;
+        }
+
+        .footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .footer-logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-logo {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="assets/img/livecourt.png" alt="LiveCourt Logo">
+                LiveCourt
+            </a>
+            <div class="nav-links">
+                <a href="stadiums.html">
+                    <span data-en>Stadiums</span>
+                    <span data-ka>სტადიონები</span>
+                </a>
+                <a href="match-analytics.html">
+                    <span data-en>Analytics</span>
+                    <span data-ka>ანალიტიკა</span>
+                </a>
+                <a href="player-profile.html">
+                    <span data-en>Players</span>
+                    <span data-ka>მოთამაშეები</span>
+                </a>
+                <a href="about.html" class="active">
+                    <span data-en>About</span>
+                    <span data-ka>შესახებ</span>
+                </a>
+                <a href="contact.html">
+                    <span data-en>Contact</span>
+                    <span data-ka>კონტაქტი</span>
+                </a>
+                <div class="language-switcher">
+                    <button class="language-btn" onclick="switchLanguage('en')">EN</button>
+                    <span>|</span>
+                    <button class="language-btn" onclick="switchLanguage('ka')">KA</button>
+                </div>
+                <a href="dashboard.html" class="btn-primary hover-lift">
+                    <span data-en>Dashboard</span>
+                    <span data-ka>დაფა</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-hero-content">
+                <h1>
+                    <span data-en>About LiveCourt</span>
+                    <span data-ka>LiveCourt-ის შესახებ</span>
+                </h1>
+                <p>
+                    <span data-en>Transforming the way people experience sports</span>
+                    <span data-ka>ვცვლით სპორტის გამოცდილებას</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mission-section">
+        <div class="container">
+            <div class="mission-content">
+                <h2>
+                    <span data-en>Our Mission</span>
+                    <span data-ka>ჩვენი მისია</span>
+                </h2>
+                <p>
+                    <span data-en>
+                        At LiveCourt, we believe that sports have the power to unite people and transform lives. 
+                        Our mission is to make sports facilities accessible to everyone, creating a seamless 
+                        connection between athletes and venues.
+                    </span>
+                    <span data-ka>
+                        LiveCourt-ში გვჯერა, რომ სპორტს აქვს ძალა გააერთიანოს ხალხი და შეცვალოს ცხოვრება. 
+                        ჩვენი მისიაა გავხადოთ სპორტული მოედნები ხელმისაწვდომი ყველასთვის, შევქმნათ 
+                        უწყვეტი კავშირი სპორტსმენებსა და მოედნებს შორის.
+                    </span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="journey-section">
+        <div class="container">
+            <h2 class="journey-title">
+                <span data-en>Our Journey</span>
+                <span data-ka>ჩვენი გზა</span>
+            </h2>
+            <div class="journey-container">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">2020</div>
+                            <h3 class="timeline-title">
+                                <span data-en>The Beginning</span>
+                                <span data-ka>დასაწყისი</span>
+                            </h3>
+                            <p class="timeline-description">
+                                <span data-en>LiveCourt was founded with a vision to revolutionize sports facility booking.</span>
+                                <span data-ka>LiveCourt დაარსდა სპორტული მოედნების დაჯავშნის რევოლუციური ხედვით.</span>
+                            </p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">2021</div>
+                            <h3 class="timeline-title">
+                                <span data-en>Platform Launch</span>
+                                <span data-ka>პლატფორმის გაშვება</span>
+                            </h3>
+                            <p class="timeline-description">
+                                <span data-en>Successfully launched our platform with 50+ partner stadiums.</span>
+                                <span data-ka>წარმატებით გავუშვით ჩვენი პლატფორმა 50+ პარტნიორ სტადიონთან ერთად.</span>
+                            </p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">2022</div>
+                            <h3 class="timeline-title">
+                                <span data-en>Expansion</span>
+                                <span data-ka>გაფართოება</span>
+                            </h3>
+                            <p class="timeline-description">
+                                <span data-en>Expanded to multiple cities across Georgia.</span>
+                                <span data-ka>გავფართოვდით საქართველოს სხვადასხვა ქალაქში.</span>
+                            </p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">2023</div>
+                            <h3 class="timeline-title">
+                                <span data-en>Innovation</span>
+                                <span data-ka>ინოვაცია</span>
+                            </h3>
+                            <p class="timeline-description">
+                                <span data-en>Introduced match analytics and player profiles.</span>
+                                <span data-ka>დავნერგეთ მატჩის ანალიტიკა და მოთამაშეთა პროფილები.</span>
+                            </p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">2024</div>
+                            <h3 class="timeline-title">
+                                <span data-en>Today</span>
+                                <span data-ka>დღეს</span>
+                            </h3>
+                            <p class="timeline-description">
+                                <span data-en>Serving thousands of athletes with 100+ premium venues.</span>
+                                <span data-ka>ვემსახურებით ათასობით სპორტსმენს 100+ პრემიუმ მოედნით.</span>
+                            </p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <a href="/" class="footer-logo">
+                        <img src="assets/img/livecourt.png" alt="LiveCourt Logo">
+                        LiveCourt
+                    </a>
+                    <p>
+                        <span data-en>Making sports accessible to everyone</span>
+                        <span data-ka>სპორტი ხელმისაწვდომია ყველასთვის</span>
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>
+                        <span data-en>Quick Links</span>
+                        <span data-ka>სწრაფი ბმულები</span>
+                    </h4>
+                    <a href="stadiums.html">
+                        <span data-en>Stadiums</span>
+                        <span data-ka>სტადიონები</span>
+                    </a>
+                    <a href="match-analytics.html">
+                        <span data-en>Analytics</span>
+                        <span data-ka>ანალიტიკა</span>
+                    </a>
+                    <a href="about.html">
+                        <span data-en>About</span>
+                        <span data-ka>შესახებ</span>
+                    </a>
+                </div>
+                <div class="footer-section">
+                    <h4>
+                        <span data-en>Contact</span>
+                        <span data-ka>კონტაქტი</span>
+                    </h4>
+                    <a href="contact.html">
+                        <span data-en>Get in touch</span>
+                        <span data-ka>დაგვიკავშირდით</span>
+                    </a>
+                    <a href="#">
+                        <span data-en>Support</span>
+                        <span data-ka>მხარდაჭერა</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    <span data-en>&copy; 2024 LiveCourt. All rights reserved.</span>
+                    <span data-ka>&copy; 2024 LiveCourt. ყველა უფლება დაცულია.</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/translations.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLanguage = localStorage.getItem('language') || 'en';
+            document.documentElement.setAttribute('data-language', savedLanguage);
+            updateActiveLanguageButton(savedLanguage);
+        });
+    </script>
+</body>
+</html> 

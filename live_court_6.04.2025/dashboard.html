@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - LiveCourt</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        .sidebar {
+            background: var(--secondary-color);
+            color: white;
+            padding: 2rem;
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .sidebar-menu {
+            margin-top: 2rem;
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            animation: slideIn 0.4s ease-out forwards;
+        }
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar-menu a:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        .sidebar-menu a:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        .sidebar-menu a:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        .sidebar-menu a:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        .stat-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.6s ease-out forwards;
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+            margin-top: 1rem;
+        }
+        .bookings-table {
+            width: 100%;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .bookings-table th,
+        .bookings-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .bookings-table th {
+            background: var(--light-gray);
+            font-weight: 600;
+        }
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+        .status.confirmed {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        .status.pending {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        .status.cancelled {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        tr {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <a href="/" class="logo">
+                <img src="assets/img/livecourt.png" alt="LiveCourt Logo">
+                LiveCourt
+            </a>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active">📊 Dashboard</a></li>
+                <li><a href="#">🏟️ My Stadiums</a></li>
+                <li><a href="#">📅 Bookings</a></li>
+                <li><a href="#">💰 Revenue</a></li>
+                <li><a href="#">⚙️ Settings</a></li>
+                <li><a href="#">📱 Support</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Welcome back, Stadium Owner!</p>
+                </div>
+                <button class="btn-primary">+ Add New Stadium</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Bookings</h3>
+                    <p class="stat-value">128</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Players</h3>
+                    <p class="stat-value">45</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Revenue</h3>
+                    <p class="stat-value">$3,250</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Utilization Rate</h3>
+                    <p class="stat-value">78%</p>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <h3>Booking Trends</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="bookingTrendsChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3>Revenue Analysis</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Recent Bookings</h3>
+                <table class="bookings-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Stadium</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookings-table-body">
+                        <!-- Table content will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Booking Trends Chart
+            const bookingTrendsCtx = document.getElementById('bookingTrendsChart').getContext('2d');
+            new Chart(bookingTrendsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Bookings',
+                        data: [65, 78, 90, 85, 95, 128],
+                        borderColor: '#4A90E2',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [2100, 2400, 2800, 2600, 3000, 3250],
+                        backgroundColor: '#2C3E50'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Populate Recent Bookings Table
+            const bookings = [
+                { id: 'B001', customer: 'John Doe', date: '2024-03-15', time: '14:00-16:00', stadium: 'Green Field Arena', amount: '$100', status: 'confirmed' },
+                { id: 'B002', customer: 'Jane Smith', date: '2024-03-16', time: '10:00-12:00', stadium: 'Downtown Court', amount: '$80', status: 'pending' },
+                { id: 'B003', customer: 'Mike Johnson', date: '2024-03-14', time: '18:00-20:00', stadium: 'Sunset Sports Hub', amount: '$120', status: 'cancelled' }
+            ];
+
+            const bookingsTableBody = document.getElementById('bookings-table-body');
+            bookingsTableBody.innerHTML = bookings.map(booking => `
+                <tr>
+                    <td>${booking.id}</td>
+                    <td>${booking.customer}</td>
+                    <td>${booking.date}</td>
+                    <td>${booking.time}</td>
+                    <td>${booking.stadium}</td>
+                    <td>${booking.amount}</td>
+                    <td><span class="status ${booking.status}">${booking.status}</span></td>
+                </tr>
+            `).join('');
+        });
+    </script>
+</body>
+</html> 

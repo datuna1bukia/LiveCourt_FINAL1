@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en" data-language="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveCourt - Find and Book Sports Facilities</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2c3e50 100%);
+            color: white;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('assets/img/pattern.svg') repeat;
+            opacity: 0.1;
+            animation: slide 20s linear infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .hero-cta .btn-primary {
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+        }
+
+        /* Featured Stadiums */
+        .featured-stadiums {
+            padding: 5rem 0;
+            background: var(--light-gray);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .stadium-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .stadium-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .stadium-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .stadium-image {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stadium-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stadium-card:hover .stadium-image img {
+            transform: scale(1.1);
+        }
+
+        .stadium-info {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .stadium-info h3 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .stadium-info p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.3);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 24px;
+            background: var(--light-gray);
+            transition: transform 0.3s ease;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-description {
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10;
+        }
+
+        .language-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            padding: 0.5rem 1rem;
+            color: white;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn.active {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .language-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slide {
+            from { background-position: 0 0; }
+            to { background-position: 100% 100%; }
+        }
+
+        /* Language specific content */
+        [data-language="ka"] [data-en],
+        [data-language="en"] [data-ka] {
+            display: none;
+        }
+
+        .footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .footer-logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-logo {
+                justify-content: center;
+            }
+        }
+
+        /* Add these styles to your existing CSS */
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: rgba(46, 204, 113, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .nav-buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="assets/img/livecourt.png" alt="LiveCourt Logo">
+                LiveCourt
+            </a>
+            <div class="nav-links">
+                <a href="stadiums.html">
+                    <span data-en>Stadiums</span>
+                    <span data-ka>სტადიონები</span>
+                </a>
+                <a href="match-analytics.html">
+                    <span data-en>Analytics</span>
+                    <span data-ka>ანალიტიკა</span>
+                </a>
+                <a href="player-profile.html">
+                    <span data-en>Players</span>
+                    <span data-ka>მოთამაშეები</span>
+                </a>
+                <a href="about.html">
+                    <span data-en>About</span>
+                    <span data-ka>შესახებ</span>
+                </a>
+                <a href="contact.html">
+                    <span data-en>Contact</span>
+                    <span data-ka>კონტაქტი</span>
+                </a>
+                <div class="language-switcher">
+                    <button class="language-btn" onclick="switchLanguage('en')">EN</button>
+                    <span>|</span>
+                    <button class="language-btn" onclick="switchLanguage('ka')">KA</button>
+                </div>
+                <a href="dashboard.html" class="btn-primary hover-lift">
+                    <span data-en>Dashboard</span>
+                    <span data-ka>დაფა</span>
+                </a>
+            </div>
+            <div class="nav-buttons">
+                <a href="register.html" class="btn btn-primary">
+                    <span data-en>Get Started</span>
+                    <span data-ka>დაიწყე</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span data-en>Find Your Perfect Sports Venue</span>
+                    <span data-ka>იპოვეთ თქვენი იდეალური სპორტული მოედანი</span>
+                </h1>
+                <p class="hero-subtitle">
+                    <span data-en>Book stadiums, track matches, and connect with players in Georgia</span>
+                    <span data-ka>დაჯავშნეთ სტადიონები, თვალი ადევნეთ მატჩებს და დაუკავშირდით მოთამაშეებს საქართველოში</span>
+                </p>
+                <div class="hero-cta">
+                    <a href="stadiums.html" class="btn-primary hover-lift">
+                        <span data-en>Find Stadiums</span>
+                        <span data-ka>სტადიონების ძიება</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-stadiums">
+        <div class="container">
+            <h2 class="section-title">
+                <span data-en>Featured Stadiums</span>
+                <span data-ka>რჩეული სტადიონები</span>
+            </h2>
+            <div class="stadium-grid">
+                <div class="stadium-card">
+                    <div class="stadium-image">
+                        <img src="assets/img/ბაქსვუდის_დარბაზი_წყნეთი.jpg" alt="Baxwood Hall Tskneti">
+                    </div>
+                    <div class="stadium-info">
+                        <h3>
+                            <span data-en>Baxwood Hall Tskneti</span>
+                            <span data-ka>ბაქსვუდის დარბაზი წყნეთი</span>
+                        </h3>
+                        <p>
+                            <span data-en>Modern indoor facility with professional equipment and excellent lighting.</span>
+                            <span data-ka>თანამედროვე დახურული ობიექტი პროფესიული აღჭურვილობითა და შესანიშნავი განათებით.</span>
+                        </p>
+                        <a href="book_now.html?stadium=baxwood_hall_tskneti&name_en=Baxwood Hall Tskneti&name_ka=ბაქსვუდის დარბაზი წყნეთი&image=ბაქსვუდის_დარბაზი_წყნეთი.jpg" class="btn-primary">Book Now</a>
+                    </div>
+                </div>
+                <div class="stadium-card">
+                    <div class="stadium-image">
+                        <img src="assets/img/ბაქსვუდის_მოედანი_გელოვანი.jpg" alt="Baxwood Field Gelovani">
+                    </div>
+                    <div class="stadium-info">
+                        <h3>
+                            <span data-en>Baxwood Field Gelovani</span>
+                            <span data-ka>ბაქსვუდის მოედანი გელოვანი</span>
+                        </h3>
+                        <p>
+                            <span data-en>Professional outdoor field with high-quality turf and spectator seating.</span>
+                            <span data-ka>პროფესიული ღია მოედანი მაღალი ხარისხის ბალახით და მაყურებელთა სავარძლებით.</span>
+                        </p>
+                        <a href="book_now.html?stadium=baxwood_field_gelovani&name_en=Baxwood Field Gelovani&name_ka=ბაქსვუდის მოედანი გელოვანი&image=ბაქსვუდის_მოედანი_გელოვანი.jpg" class="btn-primary">Book Now</a>
+                    </div>
+                </div>
+                <div class="stadium-card">
+                    <div class="stadium-image">
+                        <img src="assets/img/ინტერ_აკადემიის_მოედანი.jpg" alt="Inter Academy Field">
+                    </div>
+                    <div class="stadium-info">
+                        <h3>
+                            <span data-en>Inter Academy Field</span>
+                            <span data-ka>ინტერ აკადემიის მოედანი</span>
+                        </h3>
+                        <p>
+                            <span data-en>State-of-the-art training facility with multiple courts and modern amenities.</span>
+                            <span data-ka>თანამედროვე სავარჯიშო ობიექტი მრავალი მოედნითა და თანამედროვე ინფრასტრუქტურით.</span>
+                        </p>
+                        <a href="book_now.html?stadium=inter_academy_field&name_en=Inter Academy Field&name_ka=ინტერ აკადემიის მოედანი&image=ინტერ_აკადემიის_მოედანი.jpg" class="btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span data-en>Why Choose LiveCourt?</span>
+                    <span data-ka>რატომ LiveCourt?</span>
+                </h2>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏟️</div>
+                    <h3 class="feature-title">
+                        <span data-en>Premium Venues</span>
+                        <span data-ka>პრემიუმ მოედნები</span>
+                    </h3>
+                    <p class="feature-description">
+                        <span data-en>Access to the best sports facilities in Georgia</span>
+                        <span data-ka>წვდომა საქართველოს საუკეთესო სპორტულ მოედნებზე</span>
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">
+                        <span data-en>Match Analytics</span>
+                        <span data-ka>მატჩის ანალიტიკა</span>
+                    </h3>
+                    <p class="feature-description">
+                        <span data-en>Track your performance and improve your game</span>
+                        <span data-ka>თვალი ადევნეთ თქვენს შედეგებს და გააუმჯობესეთ თამაში</span>
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">
+                        <span data-en>Community</span>
+                        <span data-ka>საზოგადოება</span>
+                    </h3>
+                    <p class="feature-description">
+                        <span data-en>Connect with players and organize matches</span>
+                        <span data-ka>დაუკავშირდით მოთამაშეებს და დაგეგმეთ მატჩები</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <a href="/" class="footer-logo">
+                        <img src="assets/img/livecourt.png" alt="LiveCourt Logo">
+                        LiveCourt
+                    </a>
+                    <p>
+                        <span data-en>Making sports accessible to everyone</span>
+                        <span data-ka>სპორტი ხელმისაწვდომია ყველასთვის</span>
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>
+                        <span data-en>Quick Links</span>
+                        <span data-ka>სწრაფი ბმულები</span>
+                    </h4>
+                    <a href="stadiums.html">
+                        <span data-en>Stadiums</span>
+                        <span data-ka>სტადიონები</span>
+                    </a>
+                    <a href="match-analytics.html">
+                        <span data-en>Analytics</span>
+                        <span data-ka>ანალიტიკა</span>
+                    </a>
+                    <a href="about.html">
+                        <span data-en>About</span>
+                        <span data-ka>შესახებ</span>
+                    </a>
+                </div>
+                <div class="footer-section">
+                    <h4>
+                        <span data-en>Contact</span>
+                        <span data-ka>კონტაქტი</span>
+                    </h4>
+                    <a href="contact.html">
+                        <span data-en>Get in touch</span>
+                        <span data-ka>დაგვიკავშირდით</span>
+                    </a>
+                    <a href="#">
+                        <span data-en>Support</span>
+                        <span data-ka>მხარდაჭერა</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    <span data-en>&copy; 2024 LiveCourt. All rights reserved.</span>
+                    <span data-ka>&copy; 2024 LiveCourt. ყველა უფლება დაცულია.</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/translations.js"></script>
+    <script src="assets/js/data.js"></script>
+    <script>
+        // Initialize language from localStorage or default to 'en'
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLanguage = localStorage.getItem('language') || 'en';
+            switchLanguage(savedLanguage);
+            displayFeaturedStadiums();
+        });
+
+        // Display featured stadiums
+        function displayFeaturedStadiums() {
+            const container = document.getElementById('featured-stadiums');
+            const currentLang = localStorage.getItem('language') || 'en';
+            
+            // Get first 3 stadiums for featured section
+            const featuredStadiums = stadiums.slice(0, 3);
+            
+            container.innerHTML = featuredStadiums.map(stadium => `
+                <div class="stadium-card">
+                    <div class="stadium-image">
+                        <img src="${stadium.image}" alt="${stadium[`name_${currentLang}`]}">
+                    </div>
+                    <div class="stadium-info">
+                        <h3 class="stadium-name">${stadium[`name_${currentLang}`]}</h3>
+                        <div class="stadium-meta">
+                            <span class="stadium-location">📍 ${stadium.location}</span>
+                            <span class="stadium-price">₾${stadium.price}/hr</span>
+                        </div>
+                        <a href="stadiums.html" class="btn-primary hover-lift">
+                            <span data-en>View Details</span>
+                            <span data-ka>დეტალები</span>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update dynamic content when language changes
+        function updateDynamicContent() {
+            displayFeaturedStadiums();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLanguage = localStorage.getItem('language') || 'en';
+            document.documentElement.setAttribute('data-language', savedLanguage);
+            updateActiveLanguageButton(savedLanguage);
+        });
+    </script>
+</body>
+</html> 
